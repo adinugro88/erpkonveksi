@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Slip Gaji</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #000;
+            margin-top: 30px;
+            page-break-after: always;
+        }
+
+        .header {
+            background-color: aquamarine;
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+
+        .total {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .red-text {
+            color: red;
+        }
+
+        @media print {
+            .container {
+                border: none;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>[ CV JANGKUNG RAHARJA ] SLIP GAJI</h1>
+        </div>
+
+        <div class="info-section">
+            <h3><strong>Nama:</strong> Nining</h3>
+            <h3><strong>Tanggal:</strong> 11/01/2025</h3>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Deskripsi</th>
+                    <th>Jumlah</th>
+                    <th>Harga</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Jahit Tali</td>
+                    <td>1,600</td>
+                    <td>150</td>
+                    <td>Rp 240.000</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Badan</td>
+                    <td>100</td>
+                    <td>200</td>
+                    <td>Rp 20.000</td>
+                </tr>
+                <tr class="red-text">
+                    <td>3</td>
+                    <td>Potong kasbon / Sisa (Rp 100.000)</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Rp 50.000</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="total">Total</td>
+                    <td>Rp 210.000</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</body>
+
+</html>
