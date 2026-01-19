@@ -15,7 +15,7 @@
                 <div class="col-12 col-md-4">
                     <p><strong>Gambar 1:</strong></p>
                     @if ($Jobs->photo1)
-                    <img src="{{ asset('storage/'.$Jobs->photo1) }}" alt="Gambar 1" width="200" height="100">
+                    <img src="{{ asset('storage/'.$Jobs->photo1) }}" alt="Gambar 1" width="200">
                     @else
                     <p>Tidak ada gambar 1.</p>
                     @endif
@@ -23,7 +23,7 @@
                 <div class="col-12 col-md-4">
                     <p><strong>Gambar 2:</strong></p>
                     @if ($Jobs->photo2)
-                    <img src="{{ asset('storage/'.$Jobs->photo2) }}" alt="Gambar 2" width="200" height="100">
+                    <img src="{{ asset('storage/'.$Jobs->photo2) }}" alt="Gambar 2" width="200">
                     @else
                     <p>Tidak ada gambar 2.</p>
                     @endif
@@ -31,7 +31,7 @@
                 <div class="col-12 col-md-4">
                     <p><strong>Gambar 3:</strong></p>
                     @if ($Jobs->photo3)
-                    <img src="{{ asset('storage/'.$Jobs->photo3) }}" alt="Gambar 3" width="200" height="100">
+                    <img src="{{ asset('storage/'.$Jobs->photo3) }}" alt="Gambar 3" width="200">
                     @else
                     <p>Tidak ada gambar 3.</p>
                     @endif
