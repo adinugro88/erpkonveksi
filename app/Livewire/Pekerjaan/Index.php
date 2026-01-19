@@ -10,8 +10,8 @@ class Index extends Component
 {
     public function render()
     {
-        //with paguination
-        $jobcusts = Job_cust::paginate(10);
+        //with pagination
+        $jobcusts = Job_cust::orderBy('created_at', 'DESC')->paginate(10);
 
         return view('livewire.pekerjaan.index', compact('jobcusts'));
     }
