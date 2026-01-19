@@ -175,8 +175,9 @@ class Setor extends Component
 
             // Handle photos
             foreach (['photo1', 'photo2', 'photo3'] as $photoField) {
+                $existingField = 'existing_' . $photoField;
+
                 if ($this->$photoField) {
-                    $existingField = 'existing_' . $photoField;
                     if ($this->setortarik_id && $this->$existingField) {
                         Storage::disk('public')->delete($this->$existingField);
                     }
