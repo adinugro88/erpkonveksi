@@ -14,8 +14,7 @@
                 </div>
                 <div class="col">
                     <div class="d-flex align-items-center mb-1">
-                        <h3 class="mb-0 font-weight-bold text-dark">{{ $customer->nama }}</h3>
-                        <span class="badge badge-soft-info ml-3 px-3 py-1">Customer Gold</span>
+                        <h5 class="mb-0 font-weight-bold text-dark">{{ $customer->nama }}</h5>
                     </div>
                     <div class="row text-muted small mt-2">
                         <div class="col-auto d-flex align-items-center mr-4 col-12 mb-3">
