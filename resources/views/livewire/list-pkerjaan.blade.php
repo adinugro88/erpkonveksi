@@ -110,14 +110,13 @@
                                 <div class="form-group mb-4">
                                     <label class="form-label font-weight-bold">Nama Produk / Pekerjaan</label>
                                     <div class="input-group input-group-merge">
-                                        <div class="input-group-prepend"><div class="input-group-text"><i class="material-icons">inventory_2</i></div></div>
-                                        <input type="text" wire:model="nama" class="form-control" placeholder="Contoh: Kemeja PDH, Sablon Kaos..." required>
+                                        <input type="text" wire:model="nama" class="form-control" placeholder="Contoh: Tas Bagpack, Pouch..." required>
                                     </div>
                                     @error('nama') <span class="text-danger small">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="form-group mb-0">
                                     <label class="form-label font-weight-bold">Keterangan Tambahan</label>
-                                    <textarea wire:model="keterangan" class="form-control" rows="4" placeholder="Detail spesifikasi, ukuran, dll..."></textarea>
+                                    <textarea wire:model="keterangan" class="form-control" rows="4" placeholder="QTY : 2000"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6 border-left">
