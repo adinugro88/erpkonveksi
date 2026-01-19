@@ -5,6 +5,7 @@ namespace App\Livewire\Karyawan;
 use Livewire\Component;
 use App\Models\Karyawan;
 use App\Models\Gaji;
+use App\Models\Mastersetortarik;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Reactive;
 use Flasher\Prime\FlasherInterface;
@@ -37,26 +38,35 @@ class Delete extends Component
 
 
    #[On('sweetalert:confirmed')]
-    public function onConfirmed(): void 
+    public function onConfirmed()
     {
-       
-        // Ekstrak ID dari payload
-    $id = $this->karyawanId;
+        static $hasRun = false;
 
+        if ($hasRun) {
+            return;
+        }
 
-        // Check if this karyawan has any gaji records linked to them
-        $gajiBulanCount = Gaji::where('karyawan_id', $this->karyawanId)->count();
+        $hasRun = true;
+
+        $id = $this->karyawanId;
         
-        // dd($gajiBulanCount);
-        if ($gajiBulanCount == 1) {
-            flash()->error("Data Karyawan tidak bisa dihapus karena sudah memiliki data gaji.");
+        // Check all related records
+        $gajiCount = Gaji::where('karyawan_id', $id)->count();
+        $setortarikCount = Mastersetortarik::where('karyawan_id', $id)->count();
+        
+        if ($gajiCount > 0 || $setortarikCount > 0) {
+            $message = "Data Karyawan tidak bisa dihapus karena masih memiliki:";
+            if ($gajiCount > 0) $message .= " {$gajiCount} data gaji,";
+            if ($setortarikCount > 0) $message .= " {$setortarikCount} data setor/tarik,";
+            $message = rtrim($message, ',') . ".";
+            
+            flash()->error($message);
             $this->refreshdata();
-        } 
-        else {
-            // No gaji records, safe to delete
+        } else {
+            // No related records, safe to delete
             Karyawan::destroy($id);
-            flash()->warning('Data Karyawan Berhasil Dihapus');
-            $this->refreshdata();
+            session()->flash('success', 'Data Karyawan Berhasil Dihapus');
+            return redirect()->route('karyawan.index');
         }
     }
 

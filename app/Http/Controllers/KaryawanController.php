@@ -11,7 +11,7 @@ class KaryawanController extends Controller
 {
     public function index()
     {
-        $data = Karyawan::all();
+        $data = Karyawan::orderby('id', 'desc')->get();
         return view('karyawan.index', compact('data'));
     }
 

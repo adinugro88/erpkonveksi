@@ -36,7 +36,7 @@ class Karyawan extends Model
 
     public function gaji()
     {
-        return $this->hasOne(Gaji::class);
+        return $this->hasMany(Gaji::class, 'karyawan_id');
     }
 
     public function mastersetortariks()
