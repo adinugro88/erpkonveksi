@@ -40,6 +40,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         Route::get('/surat-jalan/{id}/print', [App\Http\Controllers\SuratJalanController::class, 'print'])->name('surat-jalan.print');
         
         Route::resource('karyawan', KaryawanController::class);
+        
+        // Override create route for Livewire
+        Route::get('/invoice/create', App\Livewire\Invoice\Create::class)->name('invoice.create');
+        Route::get('/invoices/create', App\Livewire\Invoice\Create::class)->name('invoices.create');
+        
         Route::resource('invoice', InvoiceController::class);
         Route::resource('gajian', GajianController::class)->except(['index']);
         Route::resource('detail-gaji', DetailGajiController::class);
