@@ -136,7 +136,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Foto {{ substr($photoField, -1) }}</label>
-                            <input type="file" class="custom-file-input" wire:model="{{ $photoField }}" >
+                            <input type="file" class="form-control" wire:model="{{ $photoField }}" >
                             @error($photoField) <span class="text-danger">{{ $message }}</span>@enderror
                             @if ($this->$photoField && !is_string($this->$photoField))
                                 <img src="{{ $this->$photoField->temporaryUrl() }}" class="img-thumbnail mt-2" width="100">
