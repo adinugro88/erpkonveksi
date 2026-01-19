@@ -98,9 +98,6 @@ class Ambil extends Component
         $this->validate([
             'tanggal' => 'required|date',
             'keterangan' => 'nullable|string',
-            'photo1' => 'nullable|image|max:2048',
-            'photo2' => 'nullable|image|max:2048',
-            'photo3' => 'nullable|image|max:2048',
             'items.*.barang' => 'required|string',
             'items.*.jumlah' => 'required|integer|min:1',
             'items.*.keterangan' => 'nullable|string',
