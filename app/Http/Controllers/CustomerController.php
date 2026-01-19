@@ -23,17 +23,26 @@ class CustomerController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
-            'email' => 'required|email|unique:customers,email',
-            'alamat' => 'required|string',
+            'phone' => 'nullable|string|max:15',
+            'email' => 'nullable|email|unique:customers,email',
+            'alamat' => 'nullable|string',
         ]);
 
-        Customer::create($request->all());
+        Customer::create([
+            'nama' => $request->nama,
+            'phone' => $request->phone ?: '-',
+            'email' => $request->email ?: '-',
+            'alamat' => $request->alamat ?: '-',
+        ]);
         return redirect()->route('customers.index')->with('success', 'Customer created successfully.');
     }
 
     public function edit(Customer $customer)
     {
+        $customer->phone = $customer->phone === '-' ? '' : $customer->phone;
+        $customer->email = $customer->email === '-' ? '' : $customer->email;
+        $customer->alamat = $customer->alamat === '-' ? '' : $customer->alamat;
+
         return view('customers.edit', compact('customer'));
     }
 
@@ -41,12 +50,17 @@ class CustomerController extends Controller
     {
         $request->validate([
             'nama' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
-            'email' => 'required|email|unique:customers,email,' . $customer->id,
-            'alamat' => 'required|string',
+            'phone' => 'nullable|string|max:15',
+            'email' => 'nullable|email|unique:customers,email,' . $customer->id,
+            'alamat' => 'nullable|string',
         ]);
 
-        $customer->update($request->all());
+        $customer->update([
+            'nama' => $request->nama,
+            'phone' => $request->phone ?: '-',
+            'email' => $request->email ?: '-',
+            'alamat' => $request->alamat ?: '-',
+        ]);
         return redirect()->route('customers.index')->with('success', 'Customer updated successfully.');
     }
 

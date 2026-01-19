@@ -30,7 +30,7 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="material-icons">phone</i></div>
                                         </div>
-                                        <input type="text" name="phone" id="phone" class="form-control" value="{{ $customer->phone }}" placeholder="08..." required>
+                                        <input type="text" name="phone" id="phone" class="form-control" value="{{ $customer->phone }}" placeholder="08...">
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -39,12 +39,12 @@
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="material-icons">email</i></div>
                                         </div>
-                                        <input type="email" name="email" id="email" class="form-control" value="{{ $customer->email }}" placeholder="email@example.com" required>
+                                        <input type="email" name="email" id="email" class="form-control" value="{{ $customer->email }}" placeholder="email@example.com">
                                     </div>
                                 </div>
                                 <div class="col-12 mb-4">
                                     <label class="form-label font-weight-bold" for="alamat">Alamat Lengkap</label>
-                                    <textarea name="alamat" id="alamat" class="form-control" rows="3" placeholder="Masukkan alamat lengkap..." required>{{ $customer->alamat }}</textarea>
+                                    <textarea name="alamat" id="alamat" class="form-control" rows="3" placeholder="Masukkan alamat lengkap...">{{ $customer->alamat }}</textarea>
                                 </div>
                             </div>
                             <hr class="my-4">
