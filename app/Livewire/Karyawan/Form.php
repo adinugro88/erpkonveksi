@@ -10,11 +10,11 @@ class Form extends Component
     public $id, $nama, $alamat, $no_hp, $email, $status, $nip;
 
     protected $rules = [
-        'nama' => 'required',
-        'alamat' => 'required',
-        'no_hp' => 'required',
-        'email' => 'required',
-        'status' => 'required',
+        'nama' => 'required|string|max:255',
+        'alamat' => 'nullable|string',
+        'no_hp' => 'nullable|string|max:255',
+        'email' => 'nullable|email|max:255',
+        'status' => 'required|in:0,1',
     ];
 
     public function mount($id = null)
@@ -23,9 +23,9 @@ class Form extends Component
             $data = Karyawan::find($id);
             $this->id = $data->id;
             $this->nama = $data->nama;
-            $this->alamat = $data->alamat;
-            $this->no_hp = $data->no_hp;
-            $this->email = $data->email;
+            $this->alamat = $data->alamat === '-' ? '' : $data->alamat;
+            $this->no_hp = $data->no_hp === '-' ? '' : $data->no_hp;
+            $this->email = $data->email === '-' ? '' : $data->email;
             $this->status = $data->status;
             $this->nip = $data->nip;
         }
@@ -47,18 +47,18 @@ class Form extends Component
                 $data = Karyawan::find($this->id);
                 $data->update([
                     'nama' => $this->nama,
-                    'alamat' => $this->alamat,
-                    'no_hp' => $this->no_hp,
-                    'email' => $this->email,
+                    'alamat' => $this->alamat ?: '-',
+                    'no_hp' => $this->no_hp ?: '-',
+                    'email' => $this->email ?: '-',
                     'status' => $this->status,
                     'nip' => $this->nip,
                 ]);
             } else {
                 Karyawan::create([
                     'nama' => $this->nama,
-                    'alamat' => $this->alamat,
-                    'no_hp' => $this->no_hp,
-                    'email' => $this->email,
+                    'alamat' => $this->alamat ?: '-',
+                    'no_hp' => $this->no_hp ?: '-',
+                    'email' => $this->email ?: '-',
                     'status' => $this->status,
                     'nip' => $this->nip,
                 ]);

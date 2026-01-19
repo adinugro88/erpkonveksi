@@ -17,7 +17,7 @@
 
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
                 wire:model.defer="email">
             @error('email')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -45,7 +45,7 @@
         <div class="mb-3">
             <div class="form-group">
                 <label for="select01">Status</label>
-                <select id="select01" data-toggle="select" class="form-control" @error('status') is-invalid @enderror" id="status" wire:model.defer="status">
+                <select id="status" data-toggle="select" class="form-control @error('status') is-invalid @enderror" wire:model.defer="status">
                    <option value="">Pilih Status</option>
                 <option value="1">Active</option>
                 <option value="0">Inactive</option>

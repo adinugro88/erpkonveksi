@@ -9,6 +9,15 @@ class Karyawan extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nama',
+        'alamat',
+        'no_hp',
+        'email',
+        'status',
+        'nip',
+    ];
+
     protected static function boot()
     {
         parent::boot();
