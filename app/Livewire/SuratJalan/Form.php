@@ -14,6 +14,7 @@ class Form extends Component
     public $kode_sj;
     public $tanggal;
     public $job_cust_id;
+    public $customer; // Property baru
     public $jenis = 'keluar';
     public $penerima;
     public $pengirim;
@@ -35,6 +36,7 @@ class Form extends Component
             $this->kode_sj = $sj->kode_sj;
             $this->tanggal = $sj->tanggal;
             $this->job_cust_id = $sj->job_cust_id;
+            $this->customer = $sj->customer; // Load customer
             $this->jenis = $sj->jenis;
             $this->penerima = $sj->penerima;
             $this->pengirim = $sj->pengirim;
@@ -53,6 +55,20 @@ class Form extends Component
         } else {
             $this->generateKodeSj();
             $this->addItem();
+        }
+    }
+
+    public function updatedJobCustId($value)
+    {
+        if($value) {
+            $job = Job_cust::with('Customer')->find($value);
+            if($job && $job->Customer) {
+                $this->customer = $job->Customer->nama;
+            } else {
+                $this->customer = '';
+            }
+        } else {
+            $this->customer = '';
         }
     }
 
@@ -106,6 +122,7 @@ class Form extends Component
                     'kode_sj' => $this->kode_sj,
                     'tanggal' => $this->tanggal,
                     'job_cust_id' => $this->job_cust_id,
+                    'customer' => $this->customer, // Save Customer
                     'jenis' => $this->jenis,
                     'penerima' => $this->penerima,
                     'pengirim' => $this->pengirim,

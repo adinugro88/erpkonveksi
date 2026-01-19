@@ -46,11 +46,11 @@ class Create extends Component
             ->get();
     }
 
-    public function updatedSuratJalanId($value)
+    public function loadSuratJalan()
     {
-        if (!$value) return;
+        if (!$this->surat_jalan_id) return;
 
-        $suratJalan = SuratJalan::with(['details', 'jobCust.Customer'])->find($value);
+        $suratJalan = SuratJalan::with(['details', 'jobCust.Customer'])->find($this->surat_jalan_id);
         if ($suratJalan) {
             // Auto select customer if associated
             if ($suratJalan->jobCust && $suratJalan->jobCust->Customer) {
@@ -60,8 +60,14 @@ class Create extends Component
             // Populate items
             $this->items = [];
             foreach ($suratJalan->details as $detail) {
+                // Determine description format
+                $desc = $detail->barang;
+                if($detail->keterangan) {
+                   $desc .= ' - ' . $detail->keterangan;
+                }
+
                 $this->items[] = [
-                    'deskripsi' => $detail->barang . ($detail->keterangan ? ' - ' . $detail->keterangan : ''),
+                    'deskripsi' => $desc,
                     'qty' => $detail->jumlah,
                     'price' => 0,
                     'total' => 0

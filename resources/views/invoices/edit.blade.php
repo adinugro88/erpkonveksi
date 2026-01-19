@@ -11,6 +11,8 @@
                 @csrf
                 @method('PUT')
 
+           
+
                 <!-- Informasi Invoice -->
                 <div class="mb-3">
                     <label for="customer_id" class="form-label">Customer</label>
@@ -58,6 +60,20 @@
                     <div class="col-6 justify-align-right text-end">
                         <button type="button" id="add-row" class="btn btn-info text-white">Tambah Baris</button>
                     </div>
+                      <div class="input-group">
+                            <select id="select_surat_jalan" class="form-control">
+                                <option value="">-- Pilih Surat Jalan --</option>
+                                @foreach($suratJalans as $sj)
+                                    <option value="{{ $sj->id }}">
+                                        {{ $sj->kode_sj }} - {{ $sj->tanggal }} 
+                                        ({{ $sj->jobCust->Customer->nama ?? 'Umum' }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            <button type="button" id="btn-ambil-data" class="btn btn-primary">
+                                <i class="fas fa-download"></i> Ambil Data
+                            </button>
+                        </div>
                 </div>
                 <div class="table-responsive mt-4">
                     <table class="table table-responsive" id="invoice-details">
@@ -86,7 +102,7 @@
                                         class="form-control total" value="{{ $detail->qty * $detail->price }}" readonly>
                                 </td>
                                 <td>
-                                    <button type="button" id="recalculate" class="btn btn-secondary mt-3">Hitung Kembali</button>
+                                    {{-- <button type="button" id="recalculate" class="btn btn-secondary mt-3">Hitung Kembali</button> --}}
 
                                     <button type="button" class="btn btn-danger remove-row">Hapus</button>
                                 </td>
@@ -110,7 +126,7 @@
                     </div>
                     <div class="col-6 mt-3">
                         <button type="submit" class="btn btn-primary">Simpan</button>
-
+                        <a href="{{ route('invoices.index') }}" class="btn btn-secondary">Batal</a>
                     </div>
                 </div>
             </form>
@@ -129,11 +145,51 @@
     </div>
 
     <script>
-        let rowIndex = {
-            {
-                count($invoice - > details)
+        // Data Surat Jalan dari Controller
+        const suratJalansData = @json($suratJalans);
+
+        document.getElementById('btn-ambil-data').addEventListener('click', function() {
+            const selectedId = document.getElementById('select_surat_jalan').value;
+            if (!selectedId) {
+                alert('Pilih Surat Jalan terlebih dahulu!');
+                return;
             }
-        };
+
+            const selectedSJ = suratJalansData.find(s => s.id == selectedId);
+            if (!selectedSJ) return;
+
+            // Optional: Set Customer if needed (uncomment if desired)
+            // if (selectedSJ.job_cust && selectedSJ.job_cust.customer) {
+            //     const custSelect = document.getElementById('customer_id');
+            //     custSelect.value = selectedSJ.job_cust.customer.id;
+            // }
+
+            // Add items to table
+            const tableBody = document.querySelector('#invoice-details tbody');
+            
+            selectedSJ.details.forEach(detail => {
+                const desc = detail.barang + (detail.keterangan ? ' - ' + detail.keterangan : '');
+                
+                const newRow = `
+                <tr>
+                    <td><input style="min-width:150px" type="date" name="details[${rowIndex}][tanggal]" class="form-control" value="${selectedSJ.tanggal}" required></td>
+                    <td><input style="min-width:250px" type="text" name="details[${rowIndex}][deskripsi]" class="form-control" value="${desc}" required></td>
+                    <td><input style="min-width:150px" type="number" name="details[${rowIndex}][qty]" class="form-control qty" value="${detail.jumlah}" required></td>
+                    <td><input style="min-width:150px" type="number" name="details[${rowIndex}][price]" class="form-control price" value="0" required></td>
+                    <td><input style="min-width:150px" type="number" name="details[${rowIndex}][total]" class="form-control total" value="0" readonly></td>
+                    <td>
+                        <button type="button" class="btn btn-danger remove-row">Hapus</button>
+                    </td>
+                </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', newRow);
+                rowIndex++;
+            });
+            
+            alert('Data berhasil ditambahkan!');
+        });
+
+        let rowIndex = {{ count($invoice->details) }};
 
         // Tambah baris detail
         document.getElementById('add-row').addEventListener('click', function () {

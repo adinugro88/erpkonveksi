@@ -11,9 +11,15 @@ use Illuminate\Http\Request;
 class InvoiceController extends Controller
 {
     // Menampilkan daftar invoice
-    public function index()
+    public function index(Request $request)
     {
-        $invoices = Invoice::with('customer', 'bank')->latest()->get();
+        $query = Invoice::with('customer', 'bank')->latest();
+
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('date', [$request->start_date, $request->end_date]);
+        }
+
+        $invoices = $query->get();
         return view('invoices.index', compact('invoices'));
     }
 
@@ -24,8 +30,14 @@ class InvoiceController extends Controller
         $banks = Bank::all();
         $nomorinvoice = $this->invoicenumbergenerate();
 
+        // Ambil surat jalan untuk option ambil data
+        $suratJalans = \App\Models\SuratJalan::with('details', 'jobCust.Customer')
+            ->where('jenis', '!=', 'masuk')
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
         // dd($customers, $banks);
-        return view('invoices.create', compact('customers', 'banks', 'nomorinvoice'));///////
+        return view('invoices.create', compact('customers', 'banks', 'nomorinvoice', 'suratJalans'));///////
     }
 
     public function invoicenumbergenerate()
@@ -86,7 +98,13 @@ class InvoiceController extends Controller
         $invoice = Invoice::with('details')->findOrFail($id);
         $customers = Customer::all();
         $banks = Bank::all();
-        return view('invoices.edit', compact('invoice', 'customers', 'banks'));
+        // Ambil surat jalan untuk option ambil data
+        $suratJalans = \App\Models\SuratJalan::with('details', 'jobCust.Customer')
+            ->where('jenis', '!=', 'masuk')
+            ->orderBy('tanggal', 'desc')
+            ->get();
+            
+        return view('invoices.edit', compact('invoice', 'customers', 'banks', 'suratJalans'));
     }
 
     // Mengupdate data invoice

@@ -59,6 +59,30 @@
                     <button type="button" id="add-row" class="btn btn-info text-white">Tambah Baris</button>
                 </div>
 
+                <!-- Ambil Data Surat Jalan -->
+                <div class="col-12 mt-3 mb-2">
+                    <div class="card border-primary">
+                        <div class="card-body bg-light p-2">
+                            <label class="fw-bold small">Ambil Data dari Surat Jalan (Optional)</label>
+                            <div class="input-group ">
+                                <select id="select_surat_jalan" class="form-control">
+                                    <option value="">-- Pilih Surat Jalan --</option>
+                                    @foreach($suratJalans as $sj)
+                                        <option value="{{ $sj->id }}">
+                                            {{ $sj->kode_sj }} -  
+                                            {{ \Carbon\Carbon::parse($sj->tanggal)->translatedFormat('d F Y') }}
+                                            {{ $sj->Jobcust->Customer->nama ?? ''}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button type="button" id="btn-ambil-data" class="btn btn-primary">
+                                    <i class="fas fa-download"></i> Ambil Data
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="table-responsive mt-2">
                     <table class="table " id="invoice-details">
                         <thead>
@@ -105,6 +129,7 @@
                 </div>
                 <div class="col-6 mt-3">
                     <button type="submit" class="btn btn-primary">Simpan</button>
+                     <a href="{{ route('invoices.index') }}" class="btn btn-secondary">Batal</a>
                 </div>
             </div>
 
@@ -123,6 +148,50 @@
 
     <script>
         let rowIndex = 1;
+
+        // Data Surat Jalan dari Controller
+        const suratJalansData = @json($suratJalans);
+
+        document.getElementById('btn-ambil-data').addEventListener('click', function() {
+            const selectedId = document.getElementById('select_surat_jalan').value;
+            if (!selectedId) {
+                alert('Pilih Surat Jalan terlebih dahulu!');
+                return;
+            }
+
+            const selectedSJ = suratJalansData.find(s => s.id == selectedId);
+            if (!selectedSJ) return;
+
+            const tableBody = document.querySelector('#invoice-details tbody');
+            
+            // Clear existing empty first row if it exists and is empty
+            const firstRow = tableBody.querySelector('tr');
+            if(firstRow && !firstRow.querySelector('[name$="[deskripsi]"]').value) {
+                // If the first row is effectively empty (check description), maybe remove it?
+                // Or just append. User can delete manually. Let's just append for safety.
+            }
+
+            selectedSJ.details.forEach(detail => {
+                const desc = detail.barang + (detail.keterangan ? ' - ' + detail.keterangan : '');
+                
+                const newRow = `
+                <tr>
+                    <td><input style="min-width:150px" type="date" name="details[${rowIndex}][tanggal]" class="form-control" value="${selectedSJ.tanggal}" required></td>
+                    <td><input style="min-width:250px" type="text" name="details[${rowIndex}][deskripsi]" class="form-control" value="${desc}" required></td>
+                    <td><input style="min-width:150px" type="number" name="details[${rowIndex}][qty]" class="form-control qty" value="${detail.jumlah}" required></td>
+                    <td><input style="min-width:150px" type="number" name="details[${rowIndex}][price]" class="form-control price" value="0" required></td>
+                    <td><input style="min-width:150px" type="number" name="details[${rowIndex}][total]" class="form-control total" value="0" readonly></td>
+                    <td>
+                        <button type="button" class="btn btn-danger remove-row">Hapus</button>
+                    </td>
+                </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', newRow);
+                rowIndex++;
+            });
+            
+            alert('Data berhasil ditambahkan!');
+        });
 
         // Tambah baris detail
         document.getElementById('add-row').addEventListener('click', function () {

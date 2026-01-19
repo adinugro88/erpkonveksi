@@ -11,7 +11,7 @@ class Job_cust extends Model
 
     public function Customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class, 'customers_id');
     }
 
     public function mastersetortariks()

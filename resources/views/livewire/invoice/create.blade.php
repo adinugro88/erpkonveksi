@@ -20,9 +20,9 @@
                 <!-- Helper Selection -->
                 <div class="row mb-4">
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="surat_jalan_id"><strong>Ambil dari Surat Jalan (Opsional)</strong></label>
-                            <select class="form-control" wire:model.live="surat_jalan_id">
+                        <label for="surat_jalan_id"><strong>Ambil dari Surat Jalan (Opsional)</strong></label>
+                        <div class="input-group">
+                            <select class="form-control" wire:model="surat_jalan_id">
                                 <option value="">-- Pilih Surat Jalan --</option>
                                 @foreach($suratJalans as $sj)
                                     <option value="{{ $sj->id }}">
@@ -31,8 +31,13 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <small class="text-muted">Item akan otomatis disalin dari Surat Jalan yang dipilih.</small>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary" type="button" wire:click="loadSuratJalan">
+                                    <i class="fas fa-download"></i> Ambil Data
+                                </button>
+                            </div>
                         </div>
+                        <small class="text-muted">Pilih surat jalan lalu klik "Ambil Data" untuk mengisi otomatis item.</small>
                     </div>
                 </div>
 

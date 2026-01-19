@@ -17,4 +17,9 @@ class SuratJalan extends Model
     {
         return $this->hasMany(SuratJalanDetail::class, 'surat_jalan_id');
     }
+
+    public function Customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
 }

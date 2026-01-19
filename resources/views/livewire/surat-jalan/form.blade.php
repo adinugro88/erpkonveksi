@@ -36,15 +36,19 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label>Pekerjaan / Job <span class="text-danger">*</span></label>
-                            <select class="form-control" wire:model="job_cust_id">
+                            <select class="form-control" wire:model.live="job_cust_id">
                                 <option value="">-- Pilih Job --</option>
                                 @foreach($jobsList as $job)
                                     <option value="{{ $job->id }}">{{ $job->nama }}</option>
                                 @endforeach
                             </select>
                             @error('job_cust_id') <span class="text-danger">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Customer</label>
+                            <input type="text" class="form-control bg-light" wire:model="customer" readonly placeholder="Nama Customer (Otomatis)">
                         </div>
                     </div>
                     <div class="col-md-6">

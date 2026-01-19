@@ -56,7 +56,7 @@
                                 <i class="material-icons text-white icon-18pt">shop</i>
                             </span>
                         </div>
-                        <a href="/setor-tarik" class="text-dark">
+                        <a href="/setortarik" class="text-dark">
                             <strong>Setor Tarik</strong>
                             <p class="mb-0 text-info">{{count($setortarik)}}</p>
                         </a>
@@ -89,7 +89,7 @@
                                 <i class="material-icons text-white icon-18pt">account_balance</i>
                             </span>
                         </div>
-                        <a href="#" class="text-dark">
+                        <a href="/gajian" class="text-dark">
                             <strong>Gaji Karyawan</strong>
                         </a>
                     </div>
