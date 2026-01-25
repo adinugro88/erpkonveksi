@@ -11,6 +11,7 @@ use App\Models\Invoice;
 use App\Models\Customer;
 use App\Models\Karjobs;
 use App\Models\Setortarik;
+use App\Models\SuratJalan;
 
 
 class Dashboard extends Component
@@ -18,9 +19,10 @@ class Dashboard extends Component
 
 
 
-    public $cust, $penghasilan, $karyawan, $karjobs, $setortarik;
+    public $suratjalan, $cust, $penghasilan, $karyawan, $karjobs, $setortarik;
     public function render()
     {
+        $this->suratjalan = SuratJalan::all();
         $this->cust = Customer::all();
         $this->penghasilan = Invoice::all();
         $this->karyawan = Karyawan::all();

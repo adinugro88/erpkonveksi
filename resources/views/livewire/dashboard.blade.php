@@ -38,7 +38,7 @@
                     <div class="p-2 d-flex flex-row align-items-center">
                         <div class="avatar avatar-xs mr-2">
                             <span class="avatar-title rounded-circle text-center bg-success">
-                                <i class="material-icons text-white icon-18pt">receipt</i>
+                                <i class="material-icons text-white icon-18pt">work</i>
                             </span>
                         </div>
                         <a href="/pekerjaan" class="text-dark">
@@ -63,6 +63,22 @@
                     </div>
                 </div>
             </div>
+             <div class="col-lg-3 col-md-4 card-group-row__col">
+                <div class="card card-group-row__card">
+                    <div class="p-2 d-flex flex-row align-items-center">
+                        <div class="avatar avatar-xs mr-2">
+                            <span class="avatar-title rounded-circle text-center bg-danger">
+                                <i class="material-icons text-white icon-18pt">receipt</i>
+                            </span>
+                        </div>
+                        <a href="/surat-jalan" class="text-dark">
+                            <strong>Surat Jalan</strong>
+                            <p class="mb-0 text-info">{{count($suratjalan)}}</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             @if(auth()->user()->isAdmin())
             <div class="col-lg-3 col-md-4 card-group-row__col">
                 <div class="card card-group-row__card">
