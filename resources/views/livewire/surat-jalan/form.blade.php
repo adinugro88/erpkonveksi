@@ -137,10 +137,10 @@
                         <!-- Action -->
                         <div class="col-12 col-md-1 text-center">
                             @if(count($items) > 1)
-                            <button type="button" class="btn btn-block btn-danger btn-sm d-md-none mt-2" wire:click="removeItem({{ $index }})">
+                            <button type="button" class="btn btn-block btn-danger btn-lg d-md-none mt-2" wire:click="removeItem({{ $index }})">
                                 <i class="fas fa-trash"></i> Hapus Item
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm d-none d-md-block mx-auto" wire:click="removeItem({{ $index }})">
+                            <button type="button" class="btn btn-danger btn-lg d-none d-md-block mx-auto" wire:click="removeItem({{ $index }})">
                                 <i class="fas fa-times"></i>
                             </button>
                             @endif
@@ -150,7 +150,7 @@
                 </div>
                 
                 <div class="text-right mb-4">
-                    <button type="button" class="btn btn-sm btn-info" wire:click="addItem">
+                    <button type="button" class="btn btn-lg btn-info" wire:click="addItem">
                         <i class="fas fa-plus"></i> Tambah Baris
                     </button>
                 </div>
