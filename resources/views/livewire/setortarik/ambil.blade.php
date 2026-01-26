@@ -85,14 +85,14 @@
                     </div>
                     <div class="col-12 col-md-1 d-flex align-items-center">
                         @if($index > 0)
-                        <button type="button" class="btn btn-danger btn-sm btn-block" wire:click="removeItem({{ $index }})">
+                        <button type="button" class="btn btn-danger btn-lg btn-block" wire:click="removeItem({{ $index }})">
                             <i class="fas fa-minus"></i> <span class="d-md-none">Hapus Baris</span>
                         </button>
                         @endif
                     </div>
                 </div>
                 @endforeach
-                <button type="button" class="btn btn-sm btn-secondary" wire:click="addItem">
+                <button type="button" class="btn btn-lg btn-secondary" wire:click="addItem">
                     <i class="fas fa-plus"></i> Tambah Item
                 </button>
 

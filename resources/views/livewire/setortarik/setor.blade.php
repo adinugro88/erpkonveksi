@@ -76,7 +76,7 @@
                 @else
                     <div class="alert alert-warning">
                         Belum ada transaksi AMBIL untuk karyawan ini. Silakan buat transaksi AMBIL terlebih dahulu.
-                        <a href="/setortarik-ambil/{{ $mastersetortarik_id }}" class="btn btn-warning btn-sm mt-2">
+                        <a href="/setortarik-ambil/{{ $mastersetortarik_id }}" class="btn btn-warning btn-lg mt-2">
                             <i class="fas fa-arrow-down"></i> Ambil Barang
                         </a>
                     </div>
@@ -116,7 +116,7 @@
                     </div>
                     <div class="col-12 col-md-1 d-flex align-items-center">
                         @if(!$parent_id || $index >= count($selected_karjobs))
-                        <button type="button" class="btn btn-danger btn-sm btn-block" wire:click="removeItem({{ $index }})">
+                        <button type="button" class="btn btn-danger btn-lg btn-block" wire:click="removeItem({{ $index }})">
                             <i class="fas fa-minus"></i> <span class="d-md-none">Hapus Baris</span>
                         </button>
                         @endif
@@ -124,7 +124,7 @@
                 </div>
                 @endforeach
                 @if(!$parent_id || count($items) >= count($selected_karjobs))
-                <button type="button" class="btn btn-sm btn-secondary" wire:click="addItem">
+                <button type="button" class="btn btn-lg btn-secondary" wire:click="addItem">
                     <i class="fas fa-plus"></i> Tambah Item Lain
                 </button>
                 @endif

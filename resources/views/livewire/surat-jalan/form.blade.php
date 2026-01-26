@@ -12,7 +12,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Jenis <span class="text-danger">*</span></label>
-                            <select class="form-control" wire:model.live="jenis" @if($sj_id) disabled @endif>
+                            <select id="selectjenis" class="form-control" wire:model.live="jenis" @if($sj_id) disabled @endif>
                                 <option value="keluar">KELUAR (PENGIRIMAN)</option>
                                 <option value="masuk">MASUK (Barang Masuk)</option>
                             </select>
@@ -38,12 +38,14 @@
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label>Pekerjaan / Job <span class="text-danger">*</span></label>
-                            <select class="form-control" wire:model.live="job_cust_id">
-                                <option value="">-- Pilih Job --</option>
-                                @foreach($jobsList as $job)
-                                    <option value="{{ $job->id }}">{{ $job->nama }}</option>
-                                @endforeach
-                            </select>
+                            <div wire:ignore>
+                                <select id="selectjob" class="form-control" wire:model.live="job_cust_id">
+                                    <option value="">-- Pilih Job --</option>
+                                    @foreach($jobsList as $job)
+                                        <option value="{{ $job->id }}">{{ $job->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             @error('job_cust_id') <span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                         <div class="form-group">
@@ -163,3 +165,25 @@
         </div>
     </div>
 </div>
+
+@section('scripts')
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        const initTomSelect = (id, modelName) => {
+            if(document.getElementById(id.replace('#',''))) {
+                new TomSelect(id, {
+                    plugins: ['dropdown_input'],
+                    onInitialize: function() {
+                        this.on('change', function(value) {
+                           @this.set(modelName, value);
+                        });
+                    }
+                });
+            }
+        };
+
+        initTomSelect('#selectjob', 'job_cust_id');
+         initTomSelect('#selectjenis', 'jenis');
+    });
+</script>
+@endsection

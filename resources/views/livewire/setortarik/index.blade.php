@@ -111,22 +111,27 @@
                     <form>
                         <div class="form-group">
                             <label for="karyawan_id">Karyawan <span class="text-danger">*</span></label>
-                            <select class="form-control" id="karyawan_id" wire:model="karyawan_id">
-                                <option value="">-- Pilih Karyawan --</option>
-                                @foreach($karyawans as $karyawan)
-                                    <option value="{{ $karyawan->id }}">{{ $karyawan->nama }} ({{ $karyawan->nip }})</option>
-                                @endforeach
-                            </select>
+                            <div wire:ignore>
+                                <select id="selectopr" wire:model="karyawan_id" autocomplete="off" placeholder="Pilih Karyawan">
+                                    <option value="">-- Pilih Karyawan --</option>
+                                    @foreach($karyawans as $karyawan)
+                                        <option value="{{ $karyawan->id }}">
+                                            {{ $karyawan->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             @error('karyawan_id') <span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                         <div class="form-group">
                             <label for="jobcust_id">Job / Tugas <span class="text-danger">*</span></label>
-                            <select class="form-control" id="jobcust_id" wire:model="jobcust_id">
-                                <option value="">-- Pilih Job --</option>
-                                @foreach($jobcusts as $job)
-                                    <option value="{{ $job->id }}">{{ $job->nama }}</option>
-                                @endforeach
-                            </select>
+                            <div wire:ignore>
+                                <select autocomplete="off" id="jobcust" wire:model="jobcust_id">
+                                    <option value="">-- Pilih Job --</option>
+                                    @foreach($jobcusts as $job)
+                                        <option value="{{ $job->id }}">{{ $job->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             @error('jobcust_id') <span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                     </form>
@@ -155,10 +160,31 @@
 @endsection
 
 @section('scripts')
+
 <script src="{{ asset('assetsbaru/vendor/list.min.js') }}"></script>
 <script src="{{ asset('assetsbaru/js/list.js') }}"></script>
+
 <script>
+   
+
+
     document.addEventListener('livewire:initialized', () => {
+
+        const initTomSelect = (id, modelName) => {
+            new TomSelect(id, {
+                plugins: ['dropdown_input'],
+                onInitialize: function() {
+                    this.on('change', function(value) {
+                       @this.set(modelName, value);
+                    });
+                }
+            });
+        };
+
+        initTomSelect('#selectopr', 'karyawan_id');
+        initTomSelect('#jobcust', 'jobcust_id');
+
+     
         const modal = new bootstrap.Modal(document.getElementById('masterModal'));
 
         Livewire.on('show-master-modal', () => {
@@ -179,3 +205,5 @@
     });
 </script>
 @endsection
+
+

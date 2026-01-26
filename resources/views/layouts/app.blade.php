@@ -28,6 +28,8 @@
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-133433427-1"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+   
     @yield('style')
     @vite([])
 
@@ -109,9 +111,14 @@
     <script src="{{ asset('assetsbaru/js/dropdown.js') }}"></script>
     <script src="{{ asset('assetsbaru/js/sidebar-mini.js') }}"></script>
     <script src="{{ asset('assetsbaru/js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 
     <!-- App Settings (loaded only if #app-settings is present) -->
     <script>
+
+
+
+
         (function(){
             try {
                 if (document.getElementById('app-settings')) {
