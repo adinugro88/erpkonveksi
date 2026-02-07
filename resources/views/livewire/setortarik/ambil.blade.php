@@ -102,14 +102,34 @@
                     @foreach(['photo1', 'photo2', 'photo3'] as $photoField)
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Foto {{ substr($photoField, -1) }}</label>
-                            <input type="file" class="form-control" wire:model="{{ $photoField }}">
-                            @error($photoField) <span class="text-danger">{{ $message }}</span>@enderror
-                            @if ($this->$photoField && !is_string($this->$photoField))
-                                <img src="{{ $this->$photoField->temporaryUrl() }}" class="img-thumbnail mt-2" width="100">
-                            @elseif($this->{'existing_'.$photoField})
-                                <img src="{{ asset('storage/'.$this->{'existing_'.$photoField}) }}" class="img-thumbnail mt-2" width="100">
-                            @endif
+                            <label class="form-label font-weight-bold"><i class="material-icons icon-16pt align-middle mr-1">add_photo_alternate</i>Foto {{ substr($photoField, -1) }}</label>
+                            <div class="custom-file mb-2">
+                                <input type="file" class="custom-file-input" wire:model="{{ $photoField }}" id="{{ $photoField }}">
+                                <label class="custom-file-label" for="{{ $photoField }}">Pilih Foto</label>
+                            </div>
+                            @error($photoField) <span class="text-danger small">{{ $message }}</span>@enderror
+                            
+                            <!-- Preview Frame -->
+                            <div class="mt-2 text-center bg-light rounded" style="min-height: 120px; display: flex; align-items: center; justify-content: center; border: 1px dashed #ced4da;">
+                                <!-- Loading indicator -->
+                                <div wire:loading wire:target="{{ $photoField }}">
+                                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <div class="text-muted small mt-1">Uploading...</div>
+                                </div>
+                                
+                                <!-- Preview -->
+                                <div wire:loading.remove wire:target="{{ $photoField }}">
+                                    @if ($this->$photoField && !is_string($this->$photoField))
+                                        <img src="{{ $this->$photoField->temporaryUrl() }}" class="img-fluid rounded shadow-sm" style="max-height: 110px;">
+                                    @elseif($this->{'existing_'.$photoField})
+                                        <img src="{{ asset('storage/'.$this->{'existing_'.$photoField}) }}" class="img-fluid rounded shadow-sm" style="max-height: 110px;">
+                                    @else
+                                        <span class="text-muted small">Preview</span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @endforeach

@@ -63,14 +63,11 @@
                             <button type="button" class="btn btn-sm btn-outline-info" wire:click="openSetorModal">
                                 <i class="material-icons icon-16pt">cloud_download</i> Ambil dari Setor
                             </button>
-                            <button type="button" class="btn btn-sm btn-info" wire:click="addPertambahan">
-                                <i class="material-icons">add</i> Tambah Baris
-                            </button>
                         </div>
                     </div>
                     <div class="card-body">
                         @foreach ($pertambahan as $index => $item)
-                            <div class="row align-items-end mb-3">
+                            <div class="row align-items-end mb-3" wire:key="pertambahan-field-{{ $index }}">
                                 <div class="col-md-4">
                                     <label class="small font-weight-bold">Deskripsi</label>
                                     <input type="text" class="form-control" placeholder="Deskripsi" wire:model="pertambahan.{{ $index }}.deskripsi">
@@ -81,7 +78,10 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label class="small font-weight-bold">Harga</label>
-                                    <input type="number" class="form-control" placeholder="Harga" wire:model.live="pertambahan.{{ $index }}.harga">
+                                    <input type="text" class="form-control" placeholder="Harga" 
+                                        wire:model.blur="pertambahan.{{ $index }}.harga"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                                    >
                                 </div>
                                 <div class="col-md-2">
                                     <label class="small font-weight-bold text-muted">Total</label>
@@ -95,6 +95,9 @@
                             </div>
                             @if(!$loop->last) <hr class="my-3"> @endif
                         @endforeach
+                        <button type="button" class="btn btn-sm btn-info mt-2" wire:click="addPertambahan">
+                            <i class="material-icons">add</i> Tambah Baris
+                        </button>
                     </div>
                 </div>
 
@@ -102,20 +105,20 @@
                 <div class="card mb-4 border-left-danger border-left-3">
                     <div class="card-header bg-light d-flex justify-content-between align-items-center">
                         <h4 class="card-title m-0"><i class="material-icons text-danger mr-2">remove_circle_outline</i> Pengurangan</h4>
-                        <button type="button" class="btn btn-sm btn-danger" wire:click="addPengurangan">
-                            <i class="material-icons">add</i> Tambah Baris
-                        </button>
                     </div>
                     <div class="card-body">
                         @foreach ($pengurangan as $index => $item)
-                            <div class="row align-items-end mb-3">
+                            <div class="row align-items-end mb-3" wire:key="pengurangan-field-{{ $index }}">
                                 <div class="col-md-7">
                                     <label class="small font-weight-bold">Deskripsi</label>
                                     <input type="text" class="form-control" placeholder="Deskripsi" wire:model="pengurangan.{{ $index }}.deskripsi">
                                 </div>
                                 <div class="col-md-4">
                                     <label class="small font-weight-bold text-danger">Potongan</label>
-                                    <input type="number" class="form-control" placeholder="Potongan" wire:model.live="pengurangan.{{ $index }}.potongan">
+                                    <input type="text" class="form-control" placeholder="Potongan" 
+                                        wire:model.blur="pengurangan.{{ $index }}.potongan"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                                    >
                                 </div>
                                 <div class="col-md-1">
                                     <button type="button" class="btn btn-sm btn-outline-danger" wire:click="removePengurangan({{ $index }})">
@@ -125,6 +128,9 @@
                             </div>
                             @if(!$loop->last) <hr class="my-3"> @endif
                         @endforeach
+                        <button type="button" class="btn btn-sm btn-danger mt-2" wire:click="addPengurangan">
+                            <i class="material-icons">add</i> Tambah Baris
+                        </button>
                     </div>
                 </div>
             </div>

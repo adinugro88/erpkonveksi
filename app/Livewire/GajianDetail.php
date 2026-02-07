@@ -279,10 +279,11 @@ class GajianDetail extends Component
         });
 
         foreach ($validPertambahan as $detail) {
+            $harga = isset($detail['harga']) ? str_replace('.', '', $detail['harga']) : 0;
             DetailGaji::create([
                 'deskripsi' => $detail['deskripsi'],
                 'jumlah' => $detail['jumlah'] ?? 0,
-                'fee' => $detail['harga'] ?? 0,
+                'fee' => $harga,
                 'gaji_id' => $gaji->id,
                 'setortarikdtl_id' => $detail['setortarikdtl_id'] ?? null,
             ]);
@@ -294,9 +295,10 @@ class GajianDetail extends Component
         });
 
         foreach ($validPengurangan as $detail) {
+            $potongan = isset($detail['potongan']) ? str_replace('.', '', $detail['potongan']) : 0;
             DetailGaji::create([
                 'deskripsi' => $detail['deskripsi'],
-                'potongan' => $detail['potongan'] ?? 0,
+                'potongan' => $potongan,
                 'gaji_id' => $gaji->id,
             ]);
         }

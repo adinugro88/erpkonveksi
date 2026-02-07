@@ -132,13 +132,25 @@
                                             @php 
                                                 $previewVar = "preview".($idx+1)."Url"; 
                                             @endphp
-                                            @if ($$field)
-                                                <img src="{{ $$field->temporaryUrl() }}" class="img-fluid rounded shadow-sm" style="max-height: 70px;">
-                                            @elseif(isset($$previewVar) && $$previewVar)
-                                                <img src="{{ $$previewVar }}" class="img-fluid rounded shadow-sm" style="max-height: 70px;">
-                                            @else
-                                                <span class="text-muted small">Preview</span>
-                                            @endif
+                                            
+                                            <!-- Loading indicator -->
+                                            <div wire:loading wire:target="{{ $field }}">
+                                                <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                                <div class="text-muted small mt-1">Uploading...</div>
+                                            </div>
+                                            
+                                            <!-- Preview -->
+                                            <div wire:loading.remove wire:target="{{ $field }}">
+                                                @if ($$field)
+                                                    <img src="{{ $$field->temporaryUrl() }}" class="img-fluid rounded shadow-sm" style="max-height: 70px;">
+                                                @elseif(isset($$previewVar) && $$previewVar)
+                                                    <img src="{{ $$previewVar }}" class="img-fluid rounded shadow-sm" style="max-height: 70px;">
+                                                @else
+                                                    <span class="text-muted small">Preview</span>
+                                                @endif
+                                            </div>
                                         </div>
                                         @error($field) <span class="text-danger extra-small">{{ $message }}</span> @enderror
                                     </div>
