@@ -33,10 +33,10 @@
                     <div class="card-header bg-light d-flex justify-content-between align-items-center flex-wrap">
                         <h4 class="card-title m-0"><i class="material-icons text-info mr-2">add_circle_outline</i> Pertambahan</h4>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-info" wire:click="openSetorModal">
+                            <button type="button" class="btn btn-lg btn-outline-info" wire:click="openSetorModal">
                                 <i class="material-icons icon-16pt">cloud_download</i> Ambil dari Setor
                             </button>
-                            <button type="button" class="btn btn-sm btn-info" wire:click="addPertambahan">
+                            <button type="button" class="btn btn-lg btn-info" wire:click="addPertambahan">
                                 <i class="material-icons">add</i> Tambah Baris
                             </button>
                         </div>
@@ -61,7 +61,7 @@
                                     <input type="text" class="form-control bg-light" value="{{ number_format((float)(str_replace('.', '', $pertambahan[$index]['total'] ?? 0)), 0, ',', '.') }}" disabled>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-sm btn-outline-danger" wire:click="removePertambahan({{ $index }})">
+                                    <button type="button" class="btn btn-lg btn-outline-danger" wire:click="removePertambahan({{ $index }})">
                                         <i class="material-icons icon-16pt">delete</i>
                                     </button>
                                 </div>
@@ -75,7 +75,7 @@
                 <div class="card mb-4 border-left-danger border-left-3">
                     <div class="card-header bg-light d-flex justify-content-between align-items-center">
                         <h4 class="card-title m-0"><i class="material-icons text-danger mr-2">remove_circle_outline</i> Pengurangan</h4>
-                        <button type="button" class="btn btn-sm btn-danger" wire:click="addPengurangan">
+                        <button type="button" class="btn btn-lg btn-danger" wire:click="addPengurangan">
                             <i class="material-icons">add</i> Tambah Baris
                         </button>
                     </div>
@@ -91,7 +91,7 @@
                                     <input type="number" class="form-control" placeholder="Potongan" wire:model.live="pengurangan.{{ $index }}.potongan">
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-sm btn-outline-danger" wire:click="removePengurangan({{ $index }})">
+                                    <button type="button" class="btn btn-lg btn-outline-danger" wire:click="removePengurangan({{ $index }})">
                                         <i class="material-icons icon-16pt">delete</i>
                                     </button>
                                 </div>

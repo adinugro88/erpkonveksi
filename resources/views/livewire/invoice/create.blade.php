@@ -118,7 +118,7 @@
                                 </td>
                                 <td>
                                     @if(count($items) > 1)
-                                    <button type="button" class="btn btn-danger btn-sm" wire:click="removeItem({{ $index }})">
+                                    <button type="button" class="btn btn-danger btn-lg" wire:click="removeItem({{ $index }})">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                     @endif
@@ -144,7 +144,7 @@
                     </table>
                 </div>
 
-                <button type="button" class="btn btn-secondary btn-sm mb-4" wire:click="addItem">
+                <button type="button" class="btn btn-secondary btn-lg mb-4" wire:click="addItem">
                     <i class="fas fa-plus"></i> Tambah Baris
                 </button>
 

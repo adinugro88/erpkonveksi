@@ -45,7 +45,7 @@
                                     @endif
 
                                     @if($selectedItem)
-                                        <button type="button" class="btn btn-sm btn-link text-danger position-absolute" style="right: 10px; top: 5px;" wire:click="$set('selectedItem', null)">
+                                        <button type="button" class="btn btn-lg btn-link text-danger position-absolute" style="right: 10px; top: 5px;" wire:click="$set('selectedItem', null)">
                                             <i class="material-icons icon-16pt">close</i>
                                         </button>
                                     @endif
@@ -60,7 +60,7 @@
                     <div class="card-header bg-light d-flex justify-content-between align-items-center flex-wrap">
                         <h4 class="card-title m-0"><i class="material-icons text-info mr-2">add_circle_outline</i> Pertambahan</h4>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-info" wire:click="openSetorModal">
+                            <button type="button" class="btn btn-lg btn-outline-info" wire:click="openSetorModal">
                                 <i class="material-icons icon-16pt">cloud_download</i> Ambil dari Setor
                             </button>
                         </div>
@@ -88,14 +88,14 @@
                                     <input type="text" class="form-control bg-light" value="{{ number_format((float)($pertambahan[$index]['total'] ?? 0), 0, ',', '.') }}" disabled>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-sm btn-outline-danger" wire:click="removePertambahan({{ $index }})">
+                                    <button type="button" class="btn btn-lg btn-outline-danger" wire:click="removePertambahan({{ $index }})">
                                         <i class="material-icons icon-16pt">delete</i>
                                     </button>
                                 </div>
                             </div>
                             @if(!$loop->last) <hr class="my-3"> @endif
                         @endforeach
-                        <button type="button" class="btn btn-sm btn-info mt-2" wire:click="addPertambahan">
+                        <button type="button" class="btn btn-lg btn-info mt-2" wire:click="addPertambahan">
                             <i class="material-icons">add</i> Tambah Baris
                         </button>
                     </div>
@@ -121,14 +121,14 @@
                                     >
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-sm btn-outline-danger" wire:click="removePengurangan({{ $index }})">
+                                    <button type="button" class="btn btn-lg btn-outline-danger" wire:click="removePengurangan({{ $index }})">
                                         <i class="material-icons icon-16pt">delete</i>
                                     </button>
                                 </div>
                             </div>
                             @if(!$loop->last) <hr class="my-3"> @endif
                         @endforeach
-                        <button type="button" class="btn btn-sm btn-danger mt-2" wire:click="addPengurangan">
+                        <button type="button" class="btn btn-lg btn-danger mt-2" wire:click="addPengurangan">
                             <i class="material-icons">add</i> Tambah Baris
                         </button>
                     </div>

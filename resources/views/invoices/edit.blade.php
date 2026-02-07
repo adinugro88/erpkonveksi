@@ -134,7 +134,7 @@
 
         <div id="pdf-preview-container" class="mt-4 p-3 bg-white border rounded shadow-sm d-none">
             <div class="d-flex justify-content-end mb-3">
-                <button id="close-preview" class="btn btn-sm btn-outline-danger">Tutup Preview</button>
+                <button id="close-preview" class="btn btn-lg btn-outline-danger">Tutup Preview</button>
             </div>
 
             <div id="pdf-content" class="text-sm">
