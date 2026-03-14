@@ -158,7 +158,7 @@
                 <div class="mt-4 text-right">
                     <a href="{{ route('surat-jalan.index') }}" class="btn btn-secondary">Batal</a>
                     <button type="submit" class="btn btn-primary px-5">
-                        <i class="fas fa-save"></i> Simpan Surat Jalan
+                        <i class="fas fa-save"></i> Simpan Surat Jalan ini
                     </button>
                 </div>
             </form>
