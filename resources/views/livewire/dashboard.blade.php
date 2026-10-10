@@ -88,7 +88,7 @@
                                 <i class="material-icons text-white icon-18pt">monetization_on</i>
                             </span>
                         </div>
-                        <a href="#" class="text-dark">
+                        <a href="{{ route('invoices.index') }}" class="text-dark">
                             <strong>Invoice</strong>
                             <p class="mb-0 text-info">{{count($penghasilan)}}</p>
                         </a>

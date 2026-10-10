@@ -1,6 +1,15 @@
 @section('Judul','Surat Jalan')
 @section('action', $sj_id ? 'Edit Surat Jalan' : 'Buat Surat Jalan Baru')
 
+@section('style')
+<style>
+    .ts-wrapper .ts-control {
+        padding: 0 !important;
+        border: 0 !important;
+    }
+</style>
+@endsection
+
 <div class="container pb-5">
     <div class="card">
         <div class="card-header bg-{{ $jenis == 'keluar' ? 'warning' : 'success' }} text-white">
@@ -12,10 +21,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Jenis <span class="text-danger">*</span></label>
-                            <select id="selectjenis" class="form-control" wire:model.live="jenis" @if($sj_id) disabled @endif>
-                                <option value="keluar">KELUAR (PENGIRIMAN)</option>
-                                <option value="masuk">MASUK (Barang Masuk)</option>
-                            </select>
+                            <div wire:ignore>
+                                <select id="selectjenis" class="form-control" wire:model.live="jenis" @if($sj_id) disabled @endif>
+                                    <option value="keluar">KELUAR (PENGIRIMAN)</option>
+                                    <option value="masuk">MASUK (Barang Masuk)</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -58,6 +69,52 @@
                             <label>Keterangan Umum</label>
                             <textarea class="form-control" wire:model="keterangan" rows="1"></textarea>
                         </div>
+                    </div>
+                </div>
+
+                <hr>
+                <h6>Bukti Surat Jalan</h6>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-center bg-light rounded position-relative" style="border: 2px dashed #ced4da; min-height: 200px; display: flex; align-items: center; justify-content: center;">
+                            <div wire:loading wire:target="bukti_suratjalan" class="p-4">
+                                <i class="fas fa-spinner fa-spin fa-2x text-muted"></i>
+                                <span class="d-block text-muted small mt-2">Uploading...</span>
+                            </div>
+                            <div wire:loading.remove wire:target="bukti_suratjalan" class="w-100 p-3">
+                                @if($bukti_suratjalan)
+                                    <img src="{{ $bukti_suratjalan->temporaryUrl() }}" class="img-fluid rounded shadow-sm" style="max-height: 220px;">
+                                    <div class="d-flex justify-content-center align-items-stretch mt-3 mb-1">
+                                        <label for="buktiSuratJalanInput" class="btn btn-lg btn-outline-secondary px-3 mr-2 d-flex align-items-center justify-content-center mb-0" style="cursor:pointer; white-space: nowrap;">
+                                            <i class="fas fa-camera mr-1"></i> Ganti Photo
+                                        </label>
+                                        <button type="button" class="btn btn-lg btn-outline-danger px-3 d-flex align-items-center justify-content-center mb-0" style="white-space: nowrap;" wire:click="removeBukti"
+                                            onclick="if(!confirm('Hapus photo ini?')) { return false; }">
+                                            <i class="fas fa-trash mr-1"></i> Hapus Photo
+                                        </button>
+                                    </div>
+                                @elseif($buktiSuratjalanUrl)
+                                    <img src="{{ $buktiSuratjalanUrl }}" class="img-fluid rounded shadow-sm" style="max-height: 220px;">
+                                    <div class="d-flex justify-content-center align-items-stretch mt-3 mb-1">
+                                        <label for="buktiSuratJalanInput" class="btn btn-lg btn-outline-secondary px-3 mr-2 d-flex align-items-center justify-content-center mb-0" style="cursor:pointer; white-space: nowrap;">
+                                            <i class="fas fa-camera mr-1"></i> Ganti Photo
+                                        </label>
+                                        <button type="button" class="btn btn-lg btn-outline-danger px-3 d-flex align-items-center justify-content-center mb-0" style="white-space: nowrap;" wire:click="removeBukti"
+                                            onclick="if(!confirm('Hapus photo ini?')) { return false; }">
+                                            <i class="fas fa-trash mr-1"></i> Hapus Photo
+                                        </button>
+                                    </div>
+                                @else
+                                    <label for="buktiSuratJalanInput" class="mb-0 d-block w-100" style="cursor:pointer; padding: 45px 0;">
+                                        <i class="fas fa-cloud-upload-alt fa-3x text-muted"></i>
+                                        <span class="d-block text-muted font-weight-bold mt-2">Upload Photo</span>
+                                        <span class="d-block text-muted small">Klik untuk memilih gambar (Maks. 5MB)</span>
+                                    </label>
+                                @endif
+                            </div>
+                        </div>
+                        <input type="file" wire:model="bukti_suratjalan" id="buktiSuratJalanInput" accept="image/*" class="d-none">
+                        @error('bukti_suratjalan') <span class="text-danger small">{{ $message }}</span>@enderror
                     </div>
                 </div>
 
@@ -170,20 +227,21 @@
 <script>
     document.addEventListener('livewire:initialized', () => {
         const initTomSelect = (id, modelName) => {
-            if(document.getElementById(id.replace('#',''))) {
-                new TomSelect(id, {
-                    plugins: ['dropdown_input'],
-                    onInitialize: function() {
-                        this.on('change', function(value) {
-                           @this.set(modelName, value);
-                        });
-                    }
-                });
-            }
+            const el = document.getElementById(id.replace('#',''));
+            if(!el) return;
+            if(el.closest('.ts-wrapper')) return;
+
+            new TomSelect(id, {
+                onInitialize: function() {
+                    this.on('change', function(value) {
+                       @this.set(modelName, value);
+                    });
+                }
+            });
         };
 
         initTomSelect('#selectjob', 'job_cust_id');
-         initTomSelect('#selectjenis', 'jenis');
+        initTomSelect('#selectjenis', 'jenis');
     });
 </script>
 @endsection

@@ -7,9 +7,14 @@ use App\Models\SuratJalan;
 use App\Models\SuratJalanDetail;
 use App\Models\Job_cust;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Livewire\WithFileUploads;
+use Intervention\Image\Laravel\Facades\Image;
 
 class Form extends Component
 {
+    use WithFileUploads;
+
     public $sj_id;
     public $kode_sj;
     public $tanggal;
@@ -21,6 +26,10 @@ class Form extends Component
     public $sopir;
     public $no_kendaraan;
     public $keterangan;
+    public $bukti_suratjalan;
+    public $buktiSuratjalanUrl;
+    public $buktiDeleted = false;
+    public $oldBuktiPath;
     
     public $items = [];
     public $jobsList = [];
@@ -43,6 +52,8 @@ class Form extends Component
             $this->sopir = $sj->sopir;
             $this->no_kendaraan = $sj->no_kendaraan;
             $this->keterangan = $sj->keterangan;
+            $this->oldBuktiPath = $sj->bukti_suratjalan;
+            $this->buktiSuratjalanUrl = $sj->bukti_suratjalan ? Storage::url($sj->bukti_suratjalan) : null;
 
             foreach ($sj->details as $detail) {
                 $this->items[] = [
@@ -87,6 +98,18 @@ class Form extends Component
         $this->kode_sj = "$prefix-$random-$timestamp";
     }
 
+    public function removeBukti()
+    {
+        if ($this->bukti_suratjalan) {
+            $this->bukti_suratjalan = null;
+        }
+
+        if ($this->buktiSuratjalanUrl) {
+            $this->buktiSuratjalanUrl = null;
+            $this->buktiDeleted = true;
+        }
+    }
+
     public function addItem()
     {
         $this->items[] = [
@@ -110,26 +133,51 @@ class Form extends Component
             'tanggal' => 'required|date',
             'job_cust_id' => 'required|exists:job_custs,id',
             'jenis' => 'required|in:keluar,masuk',
+            'bukti_suratjalan' => 'nullable|image|max:5120',
             'items' => 'required|array|min:1',
             'items.*.barang' => 'required|string',
             'items.*.jumlah' => 'required|numeric|min:0.01',
         ]);
 
-        DB::transaction(function () {
+        $buktiPath = null;
+        if ($this->bukti_suratjalan) {
+            $file = $this->bukti_suratjalan;
+            $filename = time() . '_bukti_suratjalan.jpg';
+            $relativePath = 'uploads/' . $filename;
+
+            Storage::disk('public')->makeDirectory('uploads');
+
+            $img = Image::read($file);
+            $img->scale(width: 1200);
+            $encoded = $img->toJpeg(80);
+
+            Storage::disk('public')->put($relativePath, (string) $encoded);
+            $buktiPath = $relativePath;
+        }
+
+        $data = [
+            'kode_sj' => $this->kode_sj,
+            'tanggal' => $this->tanggal,
+            'job_cust_id' => $this->job_cust_id,
+            'customer' => $this->customer, // Save Customer
+            'jenis' => $this->jenis,
+            'penerima' => $this->penerima,
+            'pengirim' => $this->pengirim,
+            'sopir' => $this->sopir,
+            'no_kendaraan' => $this->no_kendaraan,
+            'keterangan' => $this->keterangan,
+        ];
+
+        if ($buktiPath) {
+            $data['bukti_suratjalan'] = $buktiPath;
+        } elseif ($this->buktiDeleted) {
+            $data['bukti_suratjalan'] = null;
+        }
+
+        DB::transaction(function () use ($data) {
             $sj = SuratJalan::updateOrCreate(
                 ['id' => $this->sj_id],
-                [
-                    'kode_sj' => $this->kode_sj,
-                    'tanggal' => $this->tanggal,
-                    'job_cust_id' => $this->job_cust_id,
-                    'customer' => $this->customer, // Save Customer
-                    'jenis' => $this->jenis,
-                    'penerima' => $this->penerima,
-                    'pengirim' => $this->pengirim,
-                    'sopir' => $this->sopir,
-                    'no_kendaraan' => $this->no_kendaraan,
-                    'keterangan' => $this->keterangan,
-                ]
+                $data
             );
 
             if ($this->sj_id) {
@@ -140,6 +188,10 @@ class Form extends Component
                 $sj->details()->create($item);
             }
         });
+
+        if ($this->oldBuktiPath && ($buktiPath || $this->buktiDeleted)) {
+            Storage::disk('public')->delete($this->oldBuktiPath);
+        }
 
         session()->flash('message', 'Surat Jalan berhasil disimpan.');
         return redirect()->route('surat-jalan.index');

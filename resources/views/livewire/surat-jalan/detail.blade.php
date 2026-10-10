@@ -9,6 +9,11 @@
                 <a href="{{ route('surat-jalan.preview', $suratJalan->id) }}" target="_blank" class="btn btn-info mb-3">
                     <i class="fas fa-file-pdf"></i> Download / Print PDF
                 </a>
+               
+                 
+                <a href="{{ route('surat-jalan.form', $suratJalan->id) }}" class="btn btn-warning mb-3 ml-3">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                 <a href="{{ route('surat-jalan.index') }}" class="btn btn-secondary mb-3 ml-3">Kembali</a>
             </div>
         </div>
@@ -92,6 +97,15 @@
                 <div class="p-3 bg-light rounded border">
                     {{ $suratJalan->keterangan }}
                 </div>
+            </div>
+            @endif
+
+            @if($suratJalan->bukti_suratjalan)
+            <div class="mt-4">
+                <h6>Bukti Surat Jalan:</h6>
+                <a href="{{ asset('storage/' . $suratJalan->bukti_suratjalan) }}" target="_blank">
+                    <img src="{{ asset('storage/' . $suratJalan->bukti_suratjalan) }}" alt="Bukti Surat Jalan" class="img-fluid rounded shadow-sm border" style="max-height: 250px;">
+                </a>
             </div>
             @endif
 
